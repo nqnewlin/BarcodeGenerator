@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_scanner">
+
+    <fragment
+        android:id="@+id/navigation_scanner"
+        android:name="com.newlin.barcodegenerator.ui.scanner.ScannerFragment"
+        android:label="@string/title_scanner"
+        tools:layout="@layout/fragment_scanner" />
+
+    <fragment
+        android:id="@+id/navigation_barcode_enter"
+        android:name="com.newlin.barcodegenerator.ui.legacyScanner.LegacyFragment"
+        android:label="Camera"
+        tools:layout="@layout/fragment_auto_enter" />
+
+    <fragment
+        android:id="@+id/navigation_barcodes"
+        android:name="com.newlin.barcodegenerator.ui.barcodes.BarcodesFragment"
+        android:label="@string/title_barcodes"
+        tools:layout="@layout/fragment_barcodes" />
+    <fragment
+        android:id="@+id/legacyFragment"
+        android:name="com.newlin.barcodegenerator.ui.legacyScanner.LegacyFragment"
+        android:label="@string/title_camera"
+        tools:layout="@layout/fragment_legacy" />
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.newlin.barcodegenerator.ui.info.InfoFragment"
+        android:label="Info"
+        tools:layout="@layout/fragment_info" />
+</navigation>

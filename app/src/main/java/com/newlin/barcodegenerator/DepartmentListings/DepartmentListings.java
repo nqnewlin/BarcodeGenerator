@@ -1,0 +1,121 @@
+package com.newlin.barcodegenerator.DepartmentListings;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class DepartmentListings {
+    ArrayList<String> department_names;
+    List<String> departments;
+
+
+    public String getDepartmentName(int department) {
+        departments = Arrays.asList(
+                "NULL",
+                "Candy and Tobacco",
+                "Personal Care",
+                "Stationary",
+                "Household Paper Products",
+                "Media and Gaming",
+                "Photo",
+                "Toys",
+                "Pets & Supplies",
+                "Sporting Goods",
+                "Automotive",
+                "Hardware",
+                "Do It Yourself",
+                "Chemicals & Cleaning",
+                "Cook & Dine",
+                "NULL",
+                "Lawn & Garden",
+                "Home Decor",
+                "Seasonal",
+                "Arts, Crafts, & Sewing",
+                "Bath & Shower",
+                "Books & Magazines",
+                "Bedding",
+                "Mens Apparel",
+                "Boys Apparel",
+                "Shoes",
+                "Baby & Toddler Apparel",
+                "NULL",
+                "NULL",
+                "Intimate Apparel",
+                "NULL",
+                "Accessories",
+                "Jewelry",
+                "Girls Apparel",
+                "Womens Apparel",
+                "NULL",
+                "NULL",
+                "NUll",
+                "NULL",
+                "NULL",
+                "Pharmacy: OTC",
+                "NULL",
+                "NULL",
+                "NULL",
+                "NULL",
+                "NULL",
+                "Beauty",
+                "NULL",
+                "NULL",
+                "Optical",
+                "NULL",
+                "NULL",
+                "NULL",
+                "NULL",
+                "NULL",
+                "NULL",
+                "Horticulture",
+                "NULL",
+                "NULL",
+                "NULL",
+                "NULL",
+                "NULL",
+                "NULL",
+                "NULL",
+                "NULL",
+                "NULL",
+                "NULL",
+                "Celebration",
+                "NULL",
+                "NULL",
+                "NULL",
+                "Furniture",
+                "Electronics",
+                "NULL",
+                "Home Management",
+                "NULL",
+                "NULL",
+                "NULL",
+                "NULL",
+                "Infant Consumables",
+                "Service Deli",
+                "Commercial Bread",
+                "Impulse",
+                "NULL",
+                "NULL",
+                "NULL",
+                "NULL",
+                "Wireless",
+                "NULL",
+                "NULL",
+                "Dairy",
+                "Frozen Food",
+                "Grocery",
+                "Meat & Seafood",
+                "Produce",
+                "Snacks & Beverages",
+                "Adult Beverages",
+                "Meat/Deli Wall",
+                "Fresh Bakery");
+
+        department_names.addAll(departments);
+
+        String departmentName;
+        departmentName = department_names.get(department);
+
+        return departmentName;
+    }
+}

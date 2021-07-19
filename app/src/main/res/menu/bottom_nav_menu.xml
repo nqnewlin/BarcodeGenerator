@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_scanner"
+        android:icon="@drawable/scanning"
+        android:title="@string/title_scanner" />
+
+    <item
+        android:id="@+id/navigation_barcode_enter"
+        android:icon="@drawable/camera"
+        android:title="@string/title_camera" />
+
+    <item
+        android:id="@+id/navigation_barcodes"
+        android:icon="@drawable/barcode2"
+        android:title="@string/title_barcodes" />
+
+    <item
+        android:id="@+id/infoFragment"
+        android:icon="@drawable/info"
+        android:title="Info" />
+
+</menu>
