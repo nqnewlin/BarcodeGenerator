@@ -17,8 +17,6 @@ public class Upc {
     private String mItemCode;
     Bitmap mImage;
 
-
-
     public Upc(String itemCode) {
         mItemCode = itemCode;
     }

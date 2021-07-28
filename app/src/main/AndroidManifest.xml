@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".DisplayBarcodes"
-            android:theme="@style/AppTheme"
+            android:theme="@style/Theme.BarcodeGenerator"
             android:parentActivityName=".MainActivity"
             >
             <meta-data

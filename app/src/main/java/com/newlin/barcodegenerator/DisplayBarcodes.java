@@ -1,7 +1,5 @@
 package com.newlin.barcodegenerator;
 
-
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,7 +29,6 @@ public class DisplayBarcodes extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        //String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
         // sets the scrolling recyclerview
         RecyclerView rvItems = (RecyclerView) findViewById(R.id.rvContacts);

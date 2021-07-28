@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.newlin.barcodegenerator.DisplayBarcodes;
 import com.newlin.barcodegenerator.R;
+import com.newlin.barcodegenerator.Upc;
 import com.newlin.barcodegenerator.ui.barcodes.Departments;
 
 import org.w3c.dom.Text;
@@ -102,5 +103,24 @@ public class ScannedBarcodesAdapter extends RecyclerView.Adapter<ScannedBarcodes
     }
 
     @Override
-    public int getItemCount() { return mDepartments.size(); }
+    public int getItemCount() {
+        if (mDepartments != null) {
+            return mDepartments.size();
+        }
+        return 0;
+    }
+
+    public void removeItem(int position) {
+        mDepartments.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void restoreItem(Departments item, int position) {
+        mDepartments.add(position, item);
+        notifyItemInserted(position);
+    }
+
+    public List<Departments> getData() {
+        return mDepartments;
+    }
 }

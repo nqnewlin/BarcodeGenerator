@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.newlin.barcodegenerator.MainActivity;
 import com.newlin.barcodegenerator.R;
 import com.newlin.barcodegenerator.ScreenScanner.ScreenCaptureService;
+import com.newlin.barcodegenerator.ui.helpers.CRUD;
 
 import java.util.ArrayList;
 import java.util.List;

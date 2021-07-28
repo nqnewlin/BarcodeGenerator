@@ -49,10 +49,6 @@ import com.newlin.barcodegenerator.ScreenScanner.ScreenCaptureService;
 
 import javax.security.auth.callback.Callback;
 
-import Database.AppDatabase;
-import Database.DepartmentInfo;
-import Database.DeptDao;
-
 import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity implements Callback {
@@ -69,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements Callback {
     private String currentDeptNumber;
     private boolean newDept = true;
     public static final String EXTRA_MESSAGE = "com.newlin.barcodegenerator.MESSAGE";
-    public static AppDatabase db;
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -94,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements Callback {
         NavigationUI.setupWithNavController(navView, navController);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -117,7 +113,6 @@ public class MainActivity extends AppCompatActivity implements Callback {
         } else {
             try {
                 scanCodesList.add(string);
-                Log.e(TAG, "captured string: " + string);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -168,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements Callback {
     }
 
     public void stopProjection(View view) {
+        Collections.sort(scannedDeptsList);
 
         ProcessScans processScans = new ProcessScans(scanCodesList, scannedDeptsList, "Screen Scanner");
         processScans.saveScansToDatabase(this, processScans);
@@ -190,29 +186,27 @@ public class MainActivity extends AppCompatActivity implements Callback {
 
     public void deleteScannedList() {
         String temp = readFile();
-        String[] files = temp.split(",", 0);
+        if (temp != null) {
+            String[] files = temp.split(",", 0);
 
-        String tempFiles;
-        File dir = getFilesDir();
-        String fileName;
-        String scanName;
-        for (int i = 0; i < files.length; i++) {
-            tempFiles = files[i].replaceAll("\"", "").replaceAll("\\[", "")
-                    .replaceAll("\\]", "");
-            files[i] = tempFiles;
-            fileName = files[i] + ".json";
-            scanName = files[i] + "_scans.json";
-            File file = new File(dir, fileName);
-            File scans = new File(dir, scanName);
-            boolean deleted = file.delete();
-            boolean deleted2 = scans.delete();
+            String tempFiles;
+            File dir = getFilesDir();
+            String fileName;
+            String scanName;
+            for (int i = 0; i < files.length; i++) {
+                tempFiles = files[i].replaceAll("\"", "").replaceAll("\\[", "")
+                        .replaceAll("\\]", "");
+                files[i] = tempFiles;
+                fileName = files[i] + ".json";
+                scanName = files[i] + "_scans.json";
+                File file = new File(dir, fileName);
+                File scans = new File(dir, scanName);
+                boolean deleted = file.delete();
+                boolean deleted2 = scans.delete();
+            }
+            File fileList = new File(dir, "scan_list.json");
+            boolean deleted = fileList.delete();
         }
-
-
-
-        List<String> list = new ArrayList<String>();
-        list.add("0");
-        saveDeptScannedList(list);
     }
 
     public String readFile() {

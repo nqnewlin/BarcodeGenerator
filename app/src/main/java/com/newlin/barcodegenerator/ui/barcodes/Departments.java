@@ -3,6 +3,8 @@ package com.newlin.barcodegenerator.ui.barcodes;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.renderscript.ScriptGroup;
 import android.util.Log;
 
@@ -11,9 +13,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -22,13 +26,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
-import com.newlin.barcodegenerator.DepartmentListings.DepartmentListings;
-import com.newlin.barcodegenerator.MainActivity;
-import com.newlin.barcodegenerator.Upc;
 
-import static android.content.ContentValues.TAG;
-
-public class Departments {
+public class Departments implements Parcelable {
     private static List<String> departments;
     private String mScanId;
     private String mScannedDepts;
@@ -43,6 +42,36 @@ public class Departments {
         mScanTime = scanTime;
         mScanSource = scanSource;
     }
+
+    private Departments(Parcel in) {
+        mScanId = in.readString();
+        mScannedDepts = in.readString();
+        mScanTime = in.readString();
+        mScanSource = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mScanId);
+        dest.writeString(mScannedDepts);
+        dest.writeString(mScanTime);
+        dest.writeString(mScanSource);
+    }
+
+    public static final Parcelable.Creator<Departments> CREATOR = new Parcelable.Creator<Departments>() {
+        public Departments createFromParcel(Parcel in) {
+            return new Departments(in);
+        }
+
+        public Departments[] newArray(int size) {
+            return new Departments[size];
+        }
+    };
 
     public String getmScanId() { return mScanId; }
 
@@ -86,8 +115,15 @@ public class Departments {
             }
         }
 
+        sortDepartmentList(departments);
+
         return departments;
     }
+
+    public void removeFromDeptList(Context context, String file) {
+
+    }
+
 
     private static String readFile(Context context, String name) {
         try {
@@ -109,10 +145,31 @@ public class Departments {
         }
     }
 
+    public static ArrayList<Departments> sortDepartmentList(ArrayList<Departments> deptList) {
+        ArrayList<Departments> mDeptList = deptList;
+        String tempValue;
+        String compValue;
+        Departments tempDept;
+        long temp;
 
-
-
-
+        for (int i = 0; i < (mDeptList.size() - 1); i++) {
+            tempValue = mDeptList.get(i).getmScanId();
+            tempValue.replaceAll("\"", "");
+            temp = Long.parseLong(tempValue);
+            int min_idx = i;
+            for (int j = i + 1; j < mDeptList.size(); j++) {
+                compValue = mDeptList.get(j).getmScanId();
+                compValue.replaceAll("\"", "");
+                if (Long.parseLong(compValue) < temp) {
+                    min_idx = j;
+                }
+                tempDept = mDeptList.get(min_idx);
+                mDeptList.set(min_idx, mDeptList.get(i));
+                mDeptList.set(i, tempDept);
+            }
+        }
+        return mDeptList;
+    }
 
     public static String getDepartmentName(int department) {
         departments = Arrays.asList(

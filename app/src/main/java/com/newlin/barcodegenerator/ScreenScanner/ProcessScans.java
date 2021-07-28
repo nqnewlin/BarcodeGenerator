@@ -24,11 +24,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import Database.AppDatabase;
-import Database.DepartmentInfo;
-import Database.DeptDao;
-import static android.content.ContentValues.TAG;
-
 public class ProcessScans {
     private String mScanId;
     private List<String> mScans;
@@ -125,9 +120,12 @@ public class ProcessScans {
         if (scanFileList != null) {
             Collections.sort(scanFileList);
         }
+        /*
         if (scanFileList.size() == 0) {
             scanFileList.add("0");
         }
+
+         */
 
         scanFileList.add(processScans.getmScanId());
 
@@ -136,7 +134,7 @@ public class ProcessScans {
         return true;
     }
 
-    private String[] readScannedListFile(Context context, String file) {
+    public String[] readScannedListFile(Context context, String file) {
         try {
             String fileName = file + ".json";
             FileInputStream fis = context.openFileInput(fileName);
