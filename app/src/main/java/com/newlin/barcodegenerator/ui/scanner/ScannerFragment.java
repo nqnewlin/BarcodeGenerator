@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.media.projection.MediaProjectionManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -37,28 +40,20 @@ public class ScannerFragment extends Fragment {
 
 
         Button startButton = (Button) root.findViewById(R.id.button);
+        startButton.setText("Start Scan");
         startButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-               ((MainActivity) getActivity()).startProjection(root);
+                scanButton(root, startButton);
             }
         });
 
+        // TODO remove this button when debug not needed
         Button stopButton = (Button) root.findViewById(R.id.button2);
         stopButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ((MainActivity) getActivity()).stopProjection(root);
             }
         });
-
-        Button clearButton = (Button) root.findViewById(R.id.button3);
-        clearButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ((MainActivity) getActivity()).deleteScannedList();
-            }
-        });
-
-
-
 
         return root;
     }
@@ -73,7 +68,19 @@ public class ScannerFragment extends Fragment {
         }
     }
 
-
-
-
+    public void scanButton(View view, Button button) {
+        String name = button.getText().toString();
+        switch (name){
+            case "Start Scan":
+                button.setText("Stop Scan");
+                ((MainActivity) getActivity()).startProjection(view);
+                break;
+            case "Stop Scan":
+                button.setText("Start Scan");
+                ((MainActivity) getActivity()).stopProjection(view);
+                break;
+            default:
+                break;
+        }
+    }
 }

@@ -4,11 +4,18 @@ import android.content.ClipData;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +33,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
+import com.newlin.barcodegenerator.MainActivity;
 import com.newlin.barcodegenerator.R;
 import com.newlin.barcodegenerator.ScreenScanner.ProcessScans;
 import com.newlin.barcodegenerator.Upc;
@@ -77,6 +85,8 @@ public class BarcodesFragment extends Fragment {
             root = inflater.inflate(R.layout.fragment_barcodes_blank, container, false);
         }
 
+        setHasOptionsMenu(true);
+
         return root;
     }
 
@@ -127,6 +137,7 @@ public class BarcodesFragment extends Fragment {
                         */
 
                         removeFromDeptList(removeDept);
+
                     }
                 };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeToDeleteCallback);
@@ -241,6 +252,81 @@ public class BarcodesFragment extends Fragment {
             File fileList = new File(dir, "delete_list.json");
             boolean deleted = fileList.delete();
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.scanner_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.clear_all:
+                ((MainActivity) getActivity()).deleteScannedList();
+
+                if (departments != null && deptList != null) {
+                    deleteAllItems();
+                    Toast.makeText(getContext(), "List cleared", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getContext(), "Nothing to clear", Toast.LENGTH_SHORT).show();
+                }
+
+
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void deleteItem(View rowView, final int position) {
+
+        Animation anim = AnimationUtils.loadAnimation(requireContext(),
+                android.R.anim.slide_out_right);
+        anim.setDuration(300);
+        rowView.startAnimation(anim);
+
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                if (departments.size() == 0) {
+                    //addEmptyView(); // adding empty view instead of the RecyclerView
+                    return;
+                }
+                departments.remove(position); //Remove the current content from the array
+                adapter.notifyDataSetChanged(); //Refresh list
+            }
+
+        }, anim.getDuration());
+    }
+
+    boolean mStopHandler = false;
+
+    private void deleteAllItems() {
+
+        final Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+
+                if (departments.size() == 0) {
+                    mStopHandler = true;
+                }
+
+                if (!mStopHandler) {
+                    View v = rvItems.findViewHolderForAdapterPosition(0).itemView;
+                    deleteItem(v, 0);
+                } else {
+                    handler.removeCallbacksAndMessages(null);
+                }
+
+                handler.postDelayed(this, 250);
+            }
+        };
+        requireActivity().runOnUiThread(runnable);
     }
 
 }
