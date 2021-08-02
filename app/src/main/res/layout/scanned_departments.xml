@@ -24,42 +24,128 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
+        <!-- Display Scan Time -->
         <TextView
-            android:id="@+id/dept_number"
+            android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="3dp"
-            android:layout_marginBottom="10dp"
-            android:textSize="18dp"
-            android:textStyle="bold" />
+            android:layout_marginTop="29dp"
+            android:text="Time: "
+            android:textSize="18sp"
+            android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/count_number"
-            android:layout_width="246dp"
+            android:id="@+id/scan_time"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/dept_number"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="3dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="3dp" />
+            android:layout_alignParentTop="true"
+            android:textSize="16sp"
+            android:layout_marginLeft="80dp"
+            android:textColor="@color/orange_primary"
+            android:gravity="left"
+            android:text="Sunday April 23, 2021"
+            android:layout_marginTop="31dp"/>
 
+        <!-- Display Scan Source -->
         <TextView
-            android:id="@+id/textView2"
-            android:layout_width="100dp"
+            android:id="@+id/source"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/dept_number"
             android:layout_alignParentStart="true"
             android:layout_marginStart="10dp"
             android:layout_marginTop="3dp"
             android:layout_marginEnd="8dp"
+            android:layout_alignParentTop="true"
+            android:text="Source: "
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/scan_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:textSize="16sp"
+            android:layout_marginLeft="80dp"
+            android:textColor="@color/orange_light"
+            android:gravity="left"
+            android:layout_marginTop="5dp"
+            android:text="camera"
+            android:layout_centerVertical="true"/>
+
+        <!-- Display scan count -->
+        <TextView
+            android:id="@+id/count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="184dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="8dp"
+            android:text="Count: "
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/scan_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/orange_light"
+            android:layout_toEndOf="@+id/count"
+            android:text="200"
+            android:textSize="16sp"/>
+
+        <!-- display scan depts -->
+        <TextView
+            android:id="@+id/department"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="52dp"
             android:layout_marginBottom="3dp"
-            android:layout_toStartOf="@+id/count_number"
-            android:text="Scanned Depts:" />
+            android:text="Depts:"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/scan_departments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:textSize="16sp"
+            android:layout_marginLeft="80dp"
+            android:textColor="@color/orange_dark"
+            android:gravity="left"
+            android:layout_marginTop="54dp"
+            android:text="Test"/>
+
+        <ImageView
+            android:id="@+id/source_screen"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_screen"
+            android:paddingRight="25dp"
+            android:visibility="invisible"/>
+
+        <ImageView
+            android:id="@+id/source_camera"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_alignParentEnd="true"
+            android:paddingRight="25dp"
+            android:src="@drawable/ic_camera"
+            android:visibility="invisible" />
 
 
 

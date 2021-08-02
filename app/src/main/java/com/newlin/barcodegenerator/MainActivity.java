@@ -14,6 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
@@ -65,12 +66,17 @@ public class MainActivity extends AppCompatActivity implements Callback {
     private String currentDeptNumber;
     private boolean newDept = true;
     public static final String EXTRA_MESSAGE = "com.newlin.barcodegenerator.MESSAGE";
+    private boolean saveFile = false;
 
     private AppBarConfiguration mAppBarConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Hide action bar
+        this.getSupportActionBar().hide();
+        // Force Night mode
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         setContentView(R.layout.activity_main);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -82,8 +88,16 @@ public class MainActivity extends AppCompatActivity implements Callback {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.navigation_scanner, R.id.navigation_barcode_enter, R.id.navigation_barcodes)
+                .build();
+
+        /* TODO add settings tab
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_scanner, R.id.navigation_barcode_enter, R.id.navigation_barcodes, R.id.infoFragment)
                 .build();
+
+         */
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
@@ -110,6 +124,12 @@ public class MainActivity extends AppCompatActivity implements Callback {
         if (string.matches("[0-9]+\\.") && string.length() < 4) {
             string = string.replace(".", "");
             scannedDeptsList.add(string);
+        } else if (string.contains(".C")) {
+            string = string.replace(".C", "");
+            if (saveFile) {
+                Log.d(TAG, "String captured: " + string);
+                scanCodesList.add(string);
+            }
         } else {
             try {
                 scanCodesList.add(string);
@@ -227,6 +247,22 @@ public class MainActivity extends AppCompatActivity implements Callback {
         } catch (IOException ioException) {
             return null;
         }
+    }
+
+    public void startSave() {
+        saveFile = true;
+        scanCodesList.clear();
+    }
+
+    public void stopSave() {
+        saveFile = false;
+
+
+        ProcessScans processScans = new ProcessScans(scanCodesList, scannedDeptsList, "Camera Scanner");
+        processScans.saveScansToDatabase(this, processScans);
+
+        scannedDepartments.clear();
+        scannedDeptsList.clear();
     }
 
 

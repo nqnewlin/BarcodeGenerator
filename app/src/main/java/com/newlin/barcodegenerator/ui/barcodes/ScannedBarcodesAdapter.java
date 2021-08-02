@@ -30,21 +30,26 @@ public class ScannedBarcodesAdapter extends RecyclerView.Adapter<ScannedBarcodes
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView deptTextView;
         public TextView countTextView;
-        public TextView deptNumberTextView;
-        public TextView scannedTextView;
+        public TextView timeTextView;
+        public TextView sourceTextView;
+        public TextView deptHolderView;
+        public ImageView screenSource;
+        public ImageView cameraSource;
         private final Context context;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
-            //TODO fix after implementing count scanned
-            //deptTextView = (TextView) itemView.findViewById(R.id.dept_name);
 
-            //TODO fix after implementing method to count scanned
-            countTextView = (TextView) itemView.findViewById(R.id.count_number);
+            deptTextView = (TextView) itemView.findViewById(R.id.scan_departments);
+            timeTextView = (TextView) itemView.findViewById(R.id.scan_time);
+            countTextView = (TextView) itemView.findViewById(R.id.scan_count);
+            sourceTextView = (TextView) itemView.findViewById(R.id.scan_source);
+            deptHolderView = (TextView) itemView.findViewById(R.id.department);
 
-            deptNumberTextView = (TextView) itemView.findViewById(R.id.dept_number);
-            //scannedTextView = (TextView) itemView.findViewById(R.id.scanned);
+            screenSource = (ImageView) itemView.findViewById(R.id.source_screen);
+            cameraSource = (ImageView) itemView.findViewById(R.id.source_camera);
+
             context = itemView.getContext();
 
         }
@@ -70,17 +75,38 @@ public class ScannedBarcodesAdapter extends RecyclerView.Adapter<ScannedBarcodes
         Departments departments = mDepartments.get(position);
 
         if (departments.getmScanId().matches("0")) {
-            TextView numberView = holder.deptNumberTextView;
-            numberView.setText("Nothing Scanned");
+            TextView deptView = holder.deptTextView;
+            deptView.setText("Nothing Scanned");
         } else {
-            TextView numberView = holder.deptNumberTextView;
-            numberView.setText(departments.getmScanTime());
+            TextView deptView = holder.deptTextView;
+            deptView.setText(departments.getmScannedDepts());
+            if (departments.getmScannedDepts().contentEquals("")) {
+                TextView holderView = holder.deptHolderView;
+                holderView.setVisibility(View.INVISIBLE);
+            }
+            //deptView.setText("TEST DEPARTMENT");
 
             //TODO implement method to capture scan counts
-            //TextView textView = holder.deptTextView;
-            //textView.setText(departments.getmScannedDepts());
-            TextView countTextView = holder.countTextView;
-            countTextView.setText(departments.getmScannedDepts());
+            TextView sourceView = holder.sourceTextView;
+            sourceView.setText(departments.getmScanSource());
+
+            TextView timeView = holder.timeTextView;
+            timeView.setText(departments.getmScanTime());
+
+            TextView countView = holder.countTextView;
+            countView.setText(departments.getmScanCount());
+
+            if (departments.getmScanSource().contentEquals("Screen Scanner")) {
+                ImageView screenScan = holder.screenSource;
+                sourceView.setText("Screen");
+                screenScan.setVisibility(View.VISIBLE);
+            } else if (departments.getmScanSource().contentEquals("Camera Scanner")) {
+                ImageView cameraScan = holder.cameraSource;
+                sourceView.setText("Camera");
+                cameraScan.setVisibility(View.VISIBLE);
+            }
+
+
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

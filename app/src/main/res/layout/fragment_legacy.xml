@@ -6,6 +6,43 @@
     android:layout_height="match_parent"
     tools:context=".ui.legacyScanner.LegacyFragment">
 
+
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/start_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="90dp"
+        android:backgroundTint="@color/orange_primary"
+        android:clickable="true"
+        app:icon="@drawable/ic_start"
+        android:text="Start"
+        app:fabSize="auto"
+        app:layout_constraintBottom_toBottomOf="@+id/preview"
+        app:layout_constraintEnd_toEndOf="@+id/preview"
+        android:visibility="visible"
+
+        />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="90dp"
+        android:backgroundTint="@color/orange_primary"
+        android:clickable="true"
+        app:icon="@drawable/ic_record"
+        android:text="Save"
+        app:fabSize="auto"
+        app:layout_constraintBottom_toBottomOf="@+id/preview"
+        app:layout_constraintEnd_toEndOf="@+id/preview"
+        android:visibility="invisible"
+        />
+
+
+
     <com.newlin.barcodegenerator.ui.legacyScanner.CameraSourcePreview
         android:id="@+id/preview"
         android:layout_width="match_parent"

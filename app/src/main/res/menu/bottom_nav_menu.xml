@@ -16,9 +16,11 @@
         android:icon="@drawable/barcode2"
         android:title="@string/title_barcodes" />
 
+    <!--
     <item
         android:id="@+id/infoFragment"
         android:icon="@drawable/info"
         android:title="Info" />
+        -->
 
 </menu>

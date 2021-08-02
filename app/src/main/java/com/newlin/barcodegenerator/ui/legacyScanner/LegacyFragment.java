@@ -33,7 +33,9 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
 import com.google.android.gms.vision.text.TextRecognizer;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.newlin.barcodegenerator.MainActivity;
 import com.newlin.barcodegenerator.R;
 
 import java.io.IOException;
@@ -77,6 +79,27 @@ public class LegacyFragment extends Fragment {
 
         dashboardViewModel =
                 new ViewModelProvider(this).get(LegacyViewModel.class);
+
+        ExtendedFloatingActionButton start = (ExtendedFloatingActionButton) root.findViewById(R.id.start_button);
+        ExtendedFloatingActionButton stop = (ExtendedFloatingActionButton) root.findViewById(R.id.save_button);
+
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                start.setVisibility(View.INVISIBLE);
+                stop.setVisibility(View.VISIBLE);
+                ((MainActivity) getActivity()).startSave();
+            }
+        });
+
+        stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                start.setVisibility(View.VISIBLE);
+                stop.setVisibility(View.INVISIBLE);
+                ((MainActivity) getActivity()).stopSave();
+            }
+        });
 
         /*
         final TextView textView = root.findViewById(R.id.text_dashboard);

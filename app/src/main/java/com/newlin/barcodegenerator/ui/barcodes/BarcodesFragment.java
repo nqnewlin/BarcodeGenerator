@@ -14,11 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -59,15 +61,37 @@ public class BarcodesFragment extends Fragment {
     RecyclerView rvItems;
     ScannedBarcodesAdapter adapter;
     View root;
+    TextView text;
+    TextView emptyText;
     String deptList;
     private static String KEY_DEPT_LIST = "departmentList";
-    boolean isInitialized;
     private List<String> deleteFileList = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        // initialize the view and inflate the layout
         root = inflater.inflate(R.layout.fragment_barcodes, container, false);
+        text = (TextView) root.findViewById((R.id.textView));
+
+        // set the view when empty list as hidden
+        emptyText = (TextView) root.findViewById(R.id.text_dashboard);
+        emptyText.setVisibility(View.GONE);
+
+        // Set imagebutton to clear list and set OnClickListener
+        ImageButton clear = (ImageButton) root.findViewById(R.id.clearButton);
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).deleteScannedList();
+                if (departments != null && deptList != null && departments.size() > 0) {
+                    deleteAllItems();
+                    Toast.makeText(getContext(), "List cleared", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Nothing to clear", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         rvItems = (RecyclerView) root.findViewById(R.id.rvContacts);
 
@@ -82,7 +106,7 @@ public class BarcodesFragment extends Fragment {
             rvItems.setAdapter(adapter);
             rvItems.setLayoutManager(new LinearLayoutManager(root.getContext()));
         } else {
-            root = inflater.inflate(R.layout.fragment_barcodes_blank, container, false);
+            emptyText.setVisibility(View.VISIBLE);
         }
 
         setHasOptionsMenu(true);
@@ -122,7 +146,7 @@ public class BarcodesFragment extends Fragment {
 
                         String removeDept = item.getmScanId();
 
-                        /* Add undo option later
+                        /* TODO Add undo option later
                         Snackbar snackbar = snackbar = Snackbar.make(root, "Item was removed from the list.",
                                 Snackbar.LENGTH_LONG);
                         snackbar.setAction("UNDO", new View.OnClickListener() {
@@ -137,6 +161,11 @@ public class BarcodesFragment extends Fragment {
                         */
 
                         removeFromDeptList(removeDept);
+
+                        if(departments.size() == 0) {
+                            emptyText.setVisibility(getView().VISIBLE);
+                            //text.setVisibility(getView().GONE);
+                        }
 
                     }
                 };
@@ -254,35 +283,6 @@ public class BarcodesFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.scanner_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.clear_all:
-                ((MainActivity) getActivity()).deleteScannedList();
-
-                if (departments != null && deptList != null) {
-                    deleteAllItems();
-                    Toast.makeText(getContext(), "List cleared", Toast.LENGTH_SHORT).show();
-
-                } else {
-                    Toast.makeText(getContext(), "Nothing to clear", Toast.LENGTH_SHORT).show();
-                }
-
-
-
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
     private void deleteItem(View rowView, final int position) {
 
         Animation anim = AnimationUtils.loadAnimation(requireContext(),
@@ -314,6 +314,8 @@ public class BarcodesFragment extends Fragment {
 
                 if (departments.size() == 0) {
                     mStopHandler = true;
+
+                    emptyText.setVisibility(getView().VISIBLE);
                 }
 
                 if (!mStopHandler) {
@@ -323,10 +325,11 @@ public class BarcodesFragment extends Fragment {
                     handler.removeCallbacksAndMessages(null);
                 }
 
-                handler.postDelayed(this, 250);
+                handler.postDelayed(this, 350);
             }
         };
         requireActivity().runOnUiThread(runnable);
+
     }
 
 }

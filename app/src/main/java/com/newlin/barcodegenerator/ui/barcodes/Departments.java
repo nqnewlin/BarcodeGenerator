@@ -33,8 +33,17 @@ public class Departments implements Parcelable {
     private String mScannedDepts;
     private String mScanTime;
     private String mScanSource;
+    private int mScanCount;
 
 
+
+    public Departments(String scanId, String scannedDepts, String scanTime, String scanSource, int scanCount) {
+        mScanId = scanId;
+        mScannedDepts = scannedDepts;
+        mScanTime = scanTime;
+        mScanSource = scanSource;
+        mScanCount = scanCount;
+    }
 
     public Departments(String scanId, String scannedDepts, String scanTime, String scanSource) {
         mScanId = scanId;
@@ -81,6 +90,8 @@ public class Departments implements Parcelable {
 
     public String getmScanSource() { return mScanSource; }
 
+    public String getmScanCount() { return String.valueOf(mScanCount); }
+
     private static int LastCodeId = 0;
 
 
@@ -108,7 +119,8 @@ public class Departments implements Parcelable {
 
                     String[] tempValues = values.split("\\.", 0);
 
-                    departments.add(new Departments(tempValues[0], tempValues[1], tempValues[2], tempValues[3]));
+                    departments.add(new Departments(tempValues[0], tempValues[1], tempValues[2], tempValues[3], Integer.valueOf(tempValues[4])));
+
                 } else if (scan_number.matches("0") && scans.length == 1) {
                     departments.add(new Departments("0", null, null, null));
                 }

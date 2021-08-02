@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.room.Room;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.$Gson$Preconditions;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -30,6 +31,7 @@ public class ProcessScans {
     private List<String> mScannedDepts;
     private String mScanTime;
     private String mScanSource;
+    private int mScanCount;
     private List<String> scanFileList = new ArrayList<>();
 
     public ProcessScans(List<String> scans, List<String> scannedDepts, String scanSource) {
@@ -48,6 +50,10 @@ public class ProcessScans {
 
         List<String> scans = processScans.getmScans();
         deleteDuplicates(scans);
+        int scanCount;
+        if (scans.size() > 0) {
+            scanCount = scans.size();
+        } else { scanCount = 0; }
 
         String jsonScanString = new Gson().toJson(scans);
 
@@ -76,7 +82,7 @@ public class ProcessScans {
 
         // Save all parameters minus scans to single string
         String saveToFile = processScans.getmScanId() + "." + deptScanned + "." + processScans.getmScanTime()
-                + "." + processScans.getmScanSource();
+                + "." + processScans.getmScanSource() + "." + String.valueOf(scanCount);
 
         String fileName = processScans.getmScanId() + ".json";
         String listName = processScans.getmScanId() + "_scans.json";
@@ -196,6 +202,8 @@ public class ProcessScans {
     public String getmScanId() { return mScanId; }
 
     public String getmScanTime() { return mScanTime; }
+
+    public String getScanCount() { return String.valueOf(mScanCount); }
 
     // Check list for duplicates and delete
     public List deleteDuplicates(List<String> strings) {

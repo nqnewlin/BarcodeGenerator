@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -34,6 +36,7 @@ public class ScannerFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        //((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         scannerViewFragment =
                 new ViewModelProvider(this).get(ScannerViewFragment.class);
         View root = inflater.inflate(R.layout.fragment_scanner, container, false);

@@ -7,6 +7,8 @@ import android.util.SparseArray;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.text.TextBlock;
 
+import org.greenrobot.eventbus.EventBus;
+
 public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
 
     private GraphicOverlay<OcrGraphic> graphicOverlay;
@@ -35,6 +37,8 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
                     Log.d("OcrDetectorProcessor", "Text detected! " + item.getValue());
                     try {
                         image = BarcodeGenerator.generateBarcodeImage(test);
+                        test = test + ".C";
+                        EventBus.getDefault().post(test);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
