@@ -13,4 +13,15 @@
     <string name="low_storage_error">Ocr dependencies cannot be downloaded due to low device storage</string>
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
     <string name="clear_all">Clear All</string>
+
+    <string name="instruction_title">How to Use</string>
+    <string name="instruction_1">Press START SCAN and navigate</string>
+    <string name="instruction_2">to page to be scanned</string>
+    <string name="instruction_3">When done, return to app</string>
+    <string name="instruction_4">and press STOP SCAN</string>
+    <string name="instruction_5">Legacy Mode utilizes the camera</string>
+    <string name="instruction_6">instead of screen scanner</string>
+    <string name="instruction_7">Captured files are found </string>
+    <string name="instruction_8">in BARCODES tab</string>
+
 </resources>

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.projection.MediaProjectionManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,10 +13,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -31,6 +37,7 @@ import javax.security.auth.callback.Callback;
 
 public class ScannerFragment extends Fragment {
     Callback iCallback;
+    private boolean legacy = false;
 
     private ScannerViewFragment scannerViewFragment;
 
@@ -49,6 +56,23 @@ public class ScannerFragment extends Fragment {
                 scanButton(root, startButton);
             }
         });
+
+        CardView infoCard = (CardView) root.findViewById(R.id.instruction_info);
+        TextView instructions = (TextView)  root.findViewById(R.id.instructions);
+        instructions.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                infoCard.setVisibility(View.VISIBLE);
+            }
+        });
+
+        TextView ok = (TextView) root.findViewById(R.id.ok_text);
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                infoCard.setVisibility(View.INVISIBLE);
+            }
+        });
+
 
         // TODO remove this button when debug not needed
         Button stopButton = (Button) root.findViewById(R.id.button2);

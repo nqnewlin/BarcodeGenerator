@@ -59,6 +59,18 @@ public class ProcessScans {
 
         List<String> depts = processScans.getmScannedDepts();
         deleteDuplicates(depts);
+
+        // sort scanned dept list
+        List<Integer> tempList = new ArrayList<Integer>();
+        for (int i = 0; i < depts.size(); i++) {
+            tempList.add(Integer.valueOf(depts.get(i)));
+        }
+        depts.clear();
+        Collections.sort(tempList);
+        for (int i = 0; i < tempList.size(); i++) {
+            depts.add(String.valueOf(tempList.get(i)));
+        }
+
         StringBuilder sb = new StringBuilder();
         int temp = 0;
         boolean oversize = false;

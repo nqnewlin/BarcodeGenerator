@@ -319,8 +319,13 @@ public class BarcodesFragment extends Fragment {
                 }
 
                 if (!mStopHandler) {
-                    View v = rvItems.findViewHolderForAdapterPosition(0).itemView;
-                    deleteItem(v, 0);
+                    RecyclerView.LayoutManager manager = rvItems.getLayoutManager();
+                    LinearLayoutManager llm = (LinearLayoutManager) manager;
+                    int visible = llm.findFirstVisibleItemPosition();
+                    if (visible > -1) {
+                        View v = rvItems.findViewHolderForAdapterPosition(visible).itemView;
+                        deleteItem(v, visible);
+                    }
                 } else {
                     handler.removeCallbacksAndMessages(null);
                 }
