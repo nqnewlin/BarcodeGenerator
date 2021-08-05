@@ -24,4 +24,14 @@
     <string name="instruction_7">Captured files are found </string>
     <string name="instruction_8">in BARCODES tab</string>
 
+    <string name="notification_title_tap_to_open">Tap to open Barcode Generator.</string>
+    <string name="notification_title_barcode_stopped">Barcode Generator stopped</string>
+    <string name="settings_page_title">Settings</string>
+    <string name="main_start">Start</string>
+
+    <string name="channel_name">notifications</string>
+    <string name="channel_description">notification description</string>
+
+
+
 </resources>

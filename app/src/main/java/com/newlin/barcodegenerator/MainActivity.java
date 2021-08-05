@@ -1,9 +1,13 @@
 package com.newlin.barcodegenerator;
 
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.projection.MediaProjectionManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -15,6 +19,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
@@ -67,12 +73,14 @@ public class MainActivity extends AppCompatActivity implements Callback {
     private boolean newDept = true;
     public static final String EXTRA_MESSAGE = "com.newlin.barcodegenerator.MESSAGE";
     private boolean saveFile = false;
+    public static String PACKAGE_NAME;
 
     private AppBarConfiguration mAppBarConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         // Hide action bar
         this.getSupportActionBar().hide();
         // Force Night mode
@@ -101,6 +109,8 @@ public class MainActivity extends AppCompatActivity implements Callback {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        PACKAGE_NAME = getApplicationContext().getPackageName();
     }
 
 
@@ -264,10 +274,5 @@ public class MainActivity extends AppCompatActivity implements Callback {
         scannedDepartments.clear();
         scannedDeptsList.clear();
     }
-
-
-
-
-
 
 }

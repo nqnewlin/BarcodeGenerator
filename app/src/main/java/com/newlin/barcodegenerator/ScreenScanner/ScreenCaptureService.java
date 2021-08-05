@@ -172,12 +172,6 @@ public class ScreenCaptureService extends Service {
                                 if (test.matches("[0-9]+\\.")) {
                                     EventBus.getDefault().post(test);
                                 }
-                                /*TODO code to capture dept not working remove if fixed
-                                if (test.matches("Favorites")) {
-                                    EventBus.getDefault().post(test);
-                                }
-
-                                 */
                             }
 
                         }
@@ -326,37 +320,4 @@ public class ScreenCaptureService extends Service {
                 mDensity, getVirtualDisplayFlags(), mImageReader.getSurface(), null, mHandler);
         mImageReader.setOnImageAvailableListener(new ImageAvailableListener(), mHandler);
     }
-
-    /*
-    private boolean saveCodesToFile(List<String> strings, String fileName) {
-       String FILENAME = "storage.json";
-       try {
-           FileOutputStream fos = openFileOutput(fileName,MODE_PRIVATE);
-           String jsonString = new Gson().toJson(strings);
-           //String jsonString = arrayToJson.ConvertArrayToJson(strings);
-           if (jsonString != null) {
-               fos.write(jsonString.getBytes());
-           }
-           fos.close();
-           return true;
-
-       } catch (FileNotFoundException fileNotFount) {
-           return false;
-       } catch (IOException ioException) {
-           return false;
-       }
-
-    }
-
-     */
-
-    public boolean isFilePresent(String fileName) {
-        String path = getFilesDir().getAbsolutePath() + "/" + fileName;
-        File file = new File(path);
-        return file.exists();
-    }
-
-
-
-
 }
