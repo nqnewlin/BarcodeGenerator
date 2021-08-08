@@ -53,7 +53,10 @@ public class ProcessScans {
         int scanCount;
         if (scans.size() > 0) {
             scanCount = scans.size();
-        } else { scanCount = 0; }
+        } else {
+            //scanCount = 0;
+            return false;
+        }
 
         String jsonScanString = new Gson().toJson(scans);
 
@@ -109,7 +112,7 @@ public class ProcessScans {
             }
             fileOutputStream.close();
 
-            //Second save scans to seperate file
+            //Second save scans to separate file
             File scanList = new File(internalStorageDir, listName);
             FileOutputStream fos = new FileOutputStream(scanList);
             if (jsonScanString != null) {

@@ -1,6 +1,5 @@
 package com.newlin.barcodegenerator.DepartmentListings;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ScannedDepartments {

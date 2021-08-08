@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements Callback {
         // Hide action bar
         this.getSupportActionBar().hide();
         // Force Night mode
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        // AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         setContentView(R.layout.activity_main);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -210,6 +211,8 @@ public class MainActivity extends AppCompatActivity implements Callback {
         if (requestCode == REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 startService(ScreenCaptureService.getStartIntent(this, resultCode, data));
+                Button startButton = (Button) findViewById(R.id.button);
+                startButton.setText("Stop Scan");
             }
         }
     }
@@ -273,6 +276,10 @@ public class MainActivity extends AppCompatActivity implements Callback {
 
         scannedDepartments.clear();
         scannedDeptsList.clear();
+    }
+
+    public void checkNightMode() {
+
     }
 
 }

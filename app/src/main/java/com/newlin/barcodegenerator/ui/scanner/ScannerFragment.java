@@ -99,7 +99,7 @@ public class ScannerFragment extends Fragment {
         String name = button.getText().toString();
         switch (name){
             case "Start Scan":
-                button.setText("Stop Scan");
+                //button.setText("Stop Scan");
                 ((MainActivity) getActivity()).startProjection(view);
                 break;
             case "Stop Scan":

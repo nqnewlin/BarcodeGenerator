@@ -119,7 +119,13 @@ public class Departments implements Parcelable {
 
                     String[] tempValues = values.split("\\.", 0);
 
-                    departments.add(new Departments(tempValues[0], tempValues[1], tempValues[2], tempValues[3], Integer.valueOf(tempValues[4])));
+
+                    //if (!(Integer.valueOf(tempValues[4]) == 0)) {
+                    //    Log.d("empty", "empty scan list");
+                        departments.add(new Departments(tempValues[0], tempValues[1], tempValues[2], tempValues[3], Integer.valueOf(tempValues[4])));
+                    //}
+
+
 
                 } else if (scan_number.matches("0") && scans.length == 1) {
                     departments.add(new Departments("0", null, null, null));

@@ -84,9 +84,6 @@ public class ScannedBarcodesAdapter extends RecyclerView.Adapter<ScannedBarcodes
                 TextView holderView = holder.deptHolderView;
                 holderView.setVisibility(View.INVISIBLE);
             }
-            //deptView.setText("TEST DEPARTMENT");
-
-            //TODO implement method to capture scan counts
             TextView sourceView = holder.sourceTextView;
             sourceView.setText(departments.getmScanSource());
 

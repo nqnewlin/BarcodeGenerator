@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,9 +20,8 @@ import com.newlin.barcodegenerator.R;
 public class NotificationUtils {
 
     public static final int NOTIFICATION_ID = 1337;
-    private static final String NOTIFICATION_CHANNEL_ID = "com.mtsahakis.mediaprojectiondemo.app";
-    private static final String NOTIFICATION_CHANNEL_NAME = "com.mtsahakis.mediaprojectiondemo.app";
-    private static final String ACTION_SAVE = "SAVE";
+    private static final String NOTIFICATION_CHANNEL_ID = "com.newlin.barcodegenerator.app";
+    private static final String NOTIFICATION_CHANNEL_NAME = "com.newlin.barcodegenerator.app";
 
     public static Pair<Integer, Notification> getNotification(@NonNull Context context) {
         createNotificationChannel(context);

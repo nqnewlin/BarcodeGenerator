@@ -2,9 +2,12 @@ package com.newlin.barcodegenerator.ui.barcodes;
 
 import android.content.ClipData;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.VibrationEffect;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +20,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Vibrator;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -143,6 +147,17 @@ public class BarcodesFragment extends Fragment {
                         final Departments item = adapter.getData().get(position);
 
                         adapter.removeItem(position);
+
+                        getSwipeThreshold(viewHolder);
+
+                        Vibrator v = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            v.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
+                            Log.d("vibrate", "vibrated");
+                        } else {
+                            //deprecated in API 26
+                            v.vibrate(200);
+                        }
 
                         String removeDept = item.getmScanId();
 
