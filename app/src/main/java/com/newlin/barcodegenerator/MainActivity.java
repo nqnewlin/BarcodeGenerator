@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements Callback {
     public static final String EXTRA_MESSAGE = "com.newlin.barcodegenerator.MESSAGE";
     private boolean saveFile = false;
     public static String PACKAGE_NAME;
-    public int testThis;
 
     private AppBarConfiguration mAppBarConfiguration;
 
