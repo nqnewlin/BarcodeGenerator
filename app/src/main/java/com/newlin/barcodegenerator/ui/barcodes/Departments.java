@@ -109,6 +109,9 @@ public class Departments implements Parcelable {
             scans[i] = temp;
         }
 
+        // Sort scans by time
+        Arrays.sort(scans);
+
         for (int i = 0; i < scans.length; i++) {
             if (scans[i].length() > 0) {
                 String scan_number = scans[i];

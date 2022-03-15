@@ -34,7 +34,11 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
             String test = item.getValue();
             if (item != null && item.getValue() != null) {
                 if (test.matches("[0-9]+") && test.length() > 2) {
-                    Log.d("OcrDetectorProcessor", "Text detected! " + item.getValue());
+                    // TODO text detected log
+                    // Log.d("OcrDetectorProcessor", "Text detected! " + item.getValue());
+
+                    test = convertItemNumber(test);
+
                     try {
                         image = BarcodeGenerator.generateBarcodeImage(test);
                         test = test + ".C";
@@ -55,5 +59,27 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
     @Override
     public void release() {
         graphicOverlay.clear();
+    }
+
+    public static String convertItemNumber(String item) {
+        int x = 0, y = 0;
+        long upcAdd = 40000000000L;
+
+        item = String.valueOf(Long.valueOf(item) + upcAdd);
+
+        for (int i = 0; i < item.length(); i++) {
+            if (i % 2 == 0) {
+                x += Integer.valueOf(item.charAt(i));
+            } else {
+                y += Integer.valueOf(item.charAt(i));
+            }
+        }
+        x *= 3;
+        x += y;
+        x = x%10;
+        if (x > 0) x = 10 - x;
+        item = item + x;
+
+        return item;
     }
 }

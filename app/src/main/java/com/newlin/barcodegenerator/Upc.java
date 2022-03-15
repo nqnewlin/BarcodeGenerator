@@ -43,11 +43,39 @@ public class Upc {
         file.replaceAll("\\[", "");
         String[] codes = file.split(",",0);
 
+        //fix for new scanner
+        long upcAdd;
+        upcAdd = 40000000000L;
+
         String temp;
         for (int i = 0; i < codes.length; i++) {
             temp = codes[i].replaceAll("\"", "").replaceAll("\\[", "").replaceAll("\\]", "");
 
-            codes[i] = temp;
+            //fix for new scanner
+            try {
+                temp = String.valueOf(Long.valueOf(temp) + upcAdd);
+
+                int x = 0, y = 0;
+
+                for (int j = 0; j < temp.length(); j++) {
+                    if (j % 2 == 0) {
+                        x += Integer.valueOf(temp.charAt(j));
+                    } else {
+                        y += Integer.valueOf(temp.charAt(j));
+                    }
+                }
+                x = x * 3;
+                x += y;
+                x = x % 10;
+                if (x > 0) {
+                    x = 10 - x;
+                }
+                temp = temp + x;
+
+                codes[i] = temp;
+            } catch (Exception e) {
+
+            }
         }
 
         Bitmap image = null;

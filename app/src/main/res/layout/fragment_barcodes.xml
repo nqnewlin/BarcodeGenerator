@@ -82,6 +82,9 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteY="1dp" />
 
+
+
+
     <!--TODO fix after implementing counting method
     <TextView
         android:id="@+id/textView3"
