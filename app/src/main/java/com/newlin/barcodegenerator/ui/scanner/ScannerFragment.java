@@ -25,6 +25,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.newlin.barcodegenerator.BuildConfig;
 import com.newlin.barcodegenerator.MainActivity;
 import com.newlin.barcodegenerator.R;
 import com.newlin.barcodegenerator.ScreenScanner.ScreenCaptureService;
@@ -38,6 +39,7 @@ import javax.security.auth.callback.Callback;
 public class ScannerFragment extends Fragment {
     Callback iCallback;
     private boolean legacy = false;
+    String versionName = BuildConfig.VERSION_NAME;
 
     private ScannerViewFragment scannerViewFragment;
 
@@ -81,6 +83,9 @@ public class ScannerFragment extends Fragment {
                 ((MainActivity) getActivity()).stopProjection(root);
             }
         });
+
+        TextView versionText = (TextView) root.findViewById(R.id.version);
+        versionText.setText("Version " + versionName);
 
         return root;
     }
