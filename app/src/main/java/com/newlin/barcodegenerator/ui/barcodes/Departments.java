@@ -120,15 +120,18 @@ public class Departments implements Parcelable {
 
                     String values = readFile(context, scan_number);
 
-                    String[] tempValues = values.split("\\.", 0);
+                    try {
+                        String[] tempValues = values.split("\\.", 0);
+
 
 
                     //if (!(Integer.valueOf(tempValues[4]) == 0)) {
                     //    Log.d("empty", "empty scan list");
                         departments.add(new Departments(tempValues[0], tempValues[1], tempValues[2], tempValues[3], Integer.valueOf(tempValues[4])));
                     //}
-
-
+                    } catch (Exception e) {
+                        Log.d("error", "file not found");
+                    }
 
                 } else if (scan_number.matches("0") && scans.length == 1) {
                     departments.add(new Departments("0", null, null, null));
