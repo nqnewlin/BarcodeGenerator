@@ -80,50 +80,79 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/exitPlay"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="30dp"
-                android:layout_marginBottom="25dp"
-                android:text="Close" />
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_margin="10dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:cornerRadius="50dp"
+                app:icon="@drawable/ic_exit"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconSize="20dp" />
 
-            <Button
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/startPause"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginEnd="30dp"
-                android:layout_marginBottom="25dp"
-                android:text="Start" />
+                android:layout_marginStart="112dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="113dp"
+                android:layout_marginBottom="19dp"
+                android:insetLeft="0dp"
+                android:insetTop="0dp"
+                android:insetRight="0dp"
+                android:insetBottom="0dp"
+                app:cornerRadius="50dp"
+                app:icon="@drawable/ic_play"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:iconSize="50dp" />
 
-            <TextView
+
+            <SeekBar
+                android:id="@+id/seekBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/speedSlider"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginBottom="1dp"
-                android:text="Barcodes per second"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.slider.Slider
-                android:id="@+id/speedSlider"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:valueFrom="1.0"
-                android:valueTo="10.0"
-                android:stepSize="1.0"
-                android:value="4.0"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="100dp"
-                />
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="143dp" />
+
+            <TextView
+                android:id="@+id/seekProgress"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="120dp" />
+
+            <TextView
+                android:id="@+id/seekTotal"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="viewEnd"
+
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="120dp" />
+
 
         </RelativeLayout>
 

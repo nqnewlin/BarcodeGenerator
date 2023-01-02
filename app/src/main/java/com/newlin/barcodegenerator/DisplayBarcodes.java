@@ -15,8 +15,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.slider.Slider;
@@ -28,19 +31,26 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class DisplayBarcodes extends AppCompatActivity {
     ArrayList<Upc> upcs;
     private Object mPauseLock;
-    private boolean mPaused;
+    private boolean mPaused = true;
     private boolean mFinished;
     CountDownTimer timer;
     int interval;
     ImageView barcode;
     int imageIterator = 1;
     private ProgressBar mLoadingProgressBar;
-    Button playPauseButton;
+    MaterialButton playPauseButton;
+    private Handler mHandler = new Handler();
+    private SeekBar seekBar;
+    private TextView seekProgress;
+    private TextView seekTotal;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +80,11 @@ public class DisplayBarcodes extends AppCompatActivity {
 
         String fileInput = readFile(deptString);
 
+        seekBar = (SeekBar) findViewById(R.id.seekBar);
+        seekBar.setProgress(imageIterator-1);
+        seekProgress = (TextView) findViewById(R.id.seekProgress);
+        seekTotal = (TextView) findViewById(R.id.seekTotal);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -82,39 +97,59 @@ public class DisplayBarcodes extends AppCompatActivity {
                         rvItems.setAdapter(adapter);
                         rvItems.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                         mLoadingProgressBar.setVisibility(View.INVISIBLE);
+                        seekBar.setMax(upcs.size());
+                        seekTotal.setText(String.valueOf(upcs.size()));
+                        seekProgress.setText("1");
+                        Log.d("Size: ", String.valueOf(upcs.size()));
                     }
                 });
             }
         }).start();
 
-        Slider speedSlider = (Slider) findViewById(R.id.speedSlider);
-        speedSlider.addOnChangeListener(seekBarChangeListener);
-        interval = Math.round(speedSlider.getValue());
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                imageIterator = i;
+                try {
+                    barcode.setImageBitmap(upcs.get(imageIterator-1).getImage());
+                    seekProgress.setText(String.valueOf(imageIterator + 1));
+                } catch (Exception e) {
+                    Log.e("Error: ", String.valueOf(e));
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        interval = 3;
 
         barcode = (ImageView) findViewById(R.id.quickBarcode);
 
-        playPauseButton = (Button) findViewById(R.id.startPause);
+        playPauseButton = (MaterialButton) findViewById(R.id.startPause);
         playPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(playPauseButton.getText().equals("Start")) {
-                    playPauseButton.setText("Pause");
+                // Paused
+                if(mPaused) {
+                    mPaused = false;
+                    playPauseButton.setIcon(getDrawable(R.drawable.ic_pause));
                     if (!upcs.isEmpty()) {
                         barcode.setImageBitmap(upcs.get(0).getImage());
-
-                        timerStart();
                     }
-
-                } else if (playPauseButton.getText().equals("Pause")) {
-                    timer.cancel();
-
-                    playPauseButton.setText("Resume");
-                } else if (playPauseButton.getText().equals("Resume")) {
                     timerStart();
-
-                    playPauseButton.setText("Pause");
+                } else {
+                    mPaused = true;
+                    playPauseButton.setIcon(getDrawable(R.drawable.ic_play));
+                    timer.cancel();
                 }
-
             }
         });
 
@@ -125,7 +160,8 @@ public class DisplayBarcodes extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 playCard.setVisibility(View.VISIBLE);
-                playPauseButton.setText("Start");
+                //playPauseButton.setText("Start");
+                playPauseButton.setIcon(getDrawable(R.drawable.ic_play));
                 try {
                     barcode.setImageBitmap(upcs.get(0).getImage());
                 } catch (Exception e) {
@@ -145,13 +181,16 @@ public class DisplayBarcodes extends AppCompatActivity {
             public void onClick(View view) {
                 playCard.setVisibility(View.INVISIBLE);
                 play.setClickable(true);
-                imageIterator = 1;
+                imageIterator = 0;
                 try {
                     timer.cancel();
+                    seekBar.setProgress(imageIterator);
+                    seekProgress.setText(String.valueOf(imageIterator+1));
                 } catch (Exception e) {
 
                 }
                 play.setVisibility(View.VISIBLE);
+                mPaused = true;
             }
         });
     }
@@ -181,6 +220,7 @@ public class DisplayBarcodes extends AppCompatActivity {
     public void timerStart() {
         int speed = 1000/interval;
         int time = upcs.size() * speed;
+        mFinished = false;
 
         timer = new CountDownTimer(time, speed) {
 
@@ -189,13 +229,28 @@ public class DisplayBarcodes extends AppCompatActivity {
                 if (imageIterator < upcs.size()) {
                     barcode.setImageBitmap(upcs.get(imageIterator).getImage());
                     imageIterator++;
+                    seekBar.setProgress(imageIterator);
+                    seekProgress.setText(String.valueOf(imageIterator));
+                }
+                if (imageIterator >= upcs.size()) {
+                    imageIterator = 0;
+                    playPauseButton.setIcon(getDrawable(R.drawable.ic_restart));
+                    mPaused = true;
+                    mFinished = true;
+                    timer.cancel();
                 }
             }
 
             @Override
             public void onFinish() {
                 playPauseButton.setText("Start");
-                imageIterator = 1;
+                if (mFinished) {
+                    playPauseButton.setIcon(getDrawable(R.drawable.ic_restart));
+                    imageIterator = 0;
+                } else {
+                    playPauseButton.setIcon(getDrawable(R.drawable.ic_play));
+                }
+                mPaused = true;
             }
         };
         timer.start();
@@ -208,5 +263,7 @@ public class DisplayBarcodes extends AppCompatActivity {
             interval = Math.round(value);
         }
     };
+
+
 
 }
